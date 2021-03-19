@@ -1,0 +1,32 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: thread-creation-teardown-test-runc
+  labels:
+    app: thread-creation-teardown-test-runc
+spec:
+  tolerations:
+    - key: "node.kubernetes.io/kata-containers"
+      operator: "Equal"
+      value: "true"
+      effect: "NoSchedule"
+  nodeSelector:
+    node.kubernetes.io/kata-containers: "true"
+  runtimeClassName: runc
+  restartPolicy: Never
+  containers:
+    - name: test
+      image: evanfoster/kata-java-benchmarks:thread-creation-teardown-test
+      imagePullPolicy: Always
+      env:
+        - name: javaargs
+          value: "-Druntime=15 -Dwarmup=5"
+      resources:
+        limits:
+          cpu: 1
+          memory: 8Gi
+        requests:
+          cpu: 1
+          memory: 8Gi
+  dnsPolicy: Default

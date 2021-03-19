@@ -1,0 +1,27 @@
+FROM openjdk:11-jdk-slim as builder
+
+COPY ThreadTest.java .
+
+RUN javac ThreadTest.java
+
+FROM openjdk:11-jre-slim
+
+COPY --from=builder /*.class ./
+
+CMD echo START \
+    && lscpu | grep -e Virt -e Hyper \
+	&& pwd \
+	&& which java \
+	&& java -version \
+	&& java --version \
+	&& echo "ulimit -a says" \
+	&& ulimit -a \
+	&& echo "cat /sys/fs/cgroup/pids/pids.max says" \
+	&& cat /sys/fs/cgroup/pids/pids.max \
+	&& echo "cat /proc/sys/kernel/threads-max says" \
+	&& cat /proc/sys/kernel/threads-max \
+	&& echo "___CONCURRENCY_BENCHMARK___" \
+	&& export MALLOC_ARENA_MAX=2 \
+    && echo "MALLOC_ARENA_MAX : $MALLOC_ARENA_MAX" \
+    && java -Xss136k -Xmx7G  -cp . ThreadTest 2048
+

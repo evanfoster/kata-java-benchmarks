@@ -1,0 +1,29 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: thread-yield-test-kata
+  labels:
+    app: thread-yield-test-kata
+spec:
+  tolerations:
+    - key: "node.kubernetes.io/kata-containers"
+      operator: "Equal"
+      value: "true"
+      effect: "NoSchedule"
+  nodeSelector:
+    node.kubernetes.io/kata-containers: "true"
+  runtimeClassName: kata-qemu
+  restartPolicy: Never
+  containers:
+    - name: test
+      image: evanfoster/kata-java-benchmarks:thread-yield-test
+      imagePullPolicy: Always
+      resources:
+        limits:
+          cpu: 8
+          memory: 8Gi
+        requests:
+          cpu: 8
+          memory: 8Gi
+  dnsPolicy: Default
