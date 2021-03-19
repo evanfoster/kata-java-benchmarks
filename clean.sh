@@ -1,2 +1,3 @@
 #!/bin/bash
-kubectl -n "$NAMESPACE" delete pod $(basename -s .yaml ./*.yaml)
+namespace="$1"
+kubectl -n "$namespace" delete pod $(basename -s .yaml ./*.yaml)
