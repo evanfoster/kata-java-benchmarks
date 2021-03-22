@@ -24,6 +24,10 @@ CMD echo START \
 	&& cat /sys/fs/cgroup/pids/pids.max \
 	&& echo "cat /proc/sys/kernel/threads-max says" \
 	&& cat /proc/sys/kernel/threads-max \
+	&& echo "lscpu says" \
+	&& lscpu \
+	&& echo "/sys/fs/cgroup/cpu/cpu.shares says" \
+	&& cat /sys/fs/cgroup/cpu/cpu.shares \
 	&& echo "___CONCURRENCY_BENCHMARK___" \
 	&& export MALLOC_ARENA_MAX=1 \
 	&& echo "MALLOC_ARENA_MAX : $MALLOC_ARENA_MAX" \

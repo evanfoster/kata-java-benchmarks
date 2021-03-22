@@ -8,7 +8,7 @@ public class ThreadTest {
 
     public static class Runner extends Thread {
         public long iterations = 0;
-        public boolean run = true;
+        public volatile boolean run = true;
         public double computedValue = System.currentTimeMillis();
         @Override
         public void run() {
